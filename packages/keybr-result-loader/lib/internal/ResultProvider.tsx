@@ -12,13 +12,13 @@ export function ResultProvider({
   readonly initialResults: readonly Result[];
   readonly children: ReactNode;
 }): ReactNode {
-  const [results, setResults] = useState(initialResults);
+  const [results, setResults] = useState(() => byTimeStamp(initialResults));
   return (
     <ResultContext.Provider
       value={{
         results,
         appendResults: (newResults) => {
-          setResults([...results, ...newResults]);
+          setResults(byTimeStamp([...results, ...newResults]));
           storage.append(newResults).catch(catchError);
         },
         clearResults: () => {
@@ -30,4 +30,9 @@ export function ResultProvider({
       {children}
     </ResultContext.Provider>
   );
+}
+
+// Per-key stats fold results in array order, so it must stay chronological.
+function byTimeStamp(results: readonly Result[]): Result[] {
+  return [...results].sort((a, b) => a.timeStamp - b.timeStamp);
 }

@@ -138,7 +138,7 @@ export function histogramFromJson(json: HistogramtJson): Histogram | null {
   return new Histogram(samples);
 }
 
-function fixLegacyLayoutId(id: string): string {
+export function fixLegacyLayoutId(id: string): string {
   // Fix layout identifiers that were changed in cfafe818d5edd3d72a738183730dae049b967ebc
   switch (id) {
     case "be":
@@ -180,7 +180,7 @@ function fixLegacyLayoutId(id: string): string {
   }
 }
 
-function fixTextTypeId(id: string): string {
+export function fixTextTypeId(id: string): string {
   switch (id) {
     case "guided":
       return TextType.GENERATED.id;
