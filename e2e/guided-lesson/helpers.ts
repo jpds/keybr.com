@@ -30,6 +30,7 @@ export function randomDelay(random: () => number): number {
 export type KeySnapshot = {
   readonly included: boolean;
   readonly focused: boolean;
+  readonly secondFocused: boolean;
   readonly uncalibrated: boolean;
   readonly forced: boolean;
 };
@@ -43,6 +44,9 @@ export async function snapshotKeys(
       {
         included: el.className.includes("lessonKey_included"),
         focused: el.className.includes("lessonKey_focused"),
+        // Not gated by isIncluded, unlike lessonKey_focused -- can land on
+        // an excluded key (the previewed next-in-line letter).
+        secondFocused: el.className.includes("lessonKey_secondFocused"),
         uncalibrated: el.className.includes("lessonKey_uncalibrated"),
         forced: el.className.includes("lessonKey_forced"),
       },
